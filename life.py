@@ -35,13 +35,13 @@ def draw():
 		for sp_row in range(pygame.world.shape[0]):
 			if pygame.world[sp_row][sp_col]:
 				new_cell = Cell((sp_col * Cell.size,sp_row * Cell.size))
-				screen.blit(new.image,new_cell.rect)
+				screen.blit(new_cell.image,new_cell.rect)
 #
 def next_generation():
-	nbars_count = sum(np.roll(np.roll(pygame.world,i,0),j,1)
-		for i in(-1,0,1) for j in(-1,0,1)
-		if(i != 0 or j != 0))
-	pygame.world = (nbrs_count == 3)|((pygame.world == 1) & (nbrs_count == 2)).astype('int')
+	nbrs_count = sum(np.roll(np.roll(pygame.world,i,0),j,1)
+			for i in (-1,0,1) for j in (-1,0,1)
+			if (i != 0 or j != 0))
+	pygame.world = (nbrs_count == 3) | ((pygame.world == 1) & (nbrs_count == 2)).astype('int')
 #
 def init():
 	pygame.world.fill(0)
@@ -72,7 +72,7 @@ def stop():
 			elif pygame.button_type == 3:
 				pygame.world[sp_row][sp_col] = 0
 			draw()
-		return 'Stop'
+	return 'Stop'
 #
 pygame.clock_start = 0
 #
@@ -100,11 +100,11 @@ def move():
 			elif pygame.button_type ==3:
 				pygame.world[sp_row][sp_col] = 0
 			draw()
-		if time.clock() - pygame.clock_start > 0.02 :
-			next_ganeration()
-			draw()
-			pygame.clock_start = time.clock()
-		return 'Move'
+	if time.clock() - pygame.clock_start > 0.02 :
+		next_generation()
+		draw()
+		pygame.clock_start = time.clock()
+	return 'Move'
 
 if __name__ == '__main__':
 	state_actions = {'Reset':init,'Stop':stop,'Move':move}
